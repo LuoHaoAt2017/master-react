@@ -1,12 +1,25 @@
-# React + Vite
+⽤户的需求增加更快，软件的代码库也会随需求增长快速膨胀，在这种情况下，如何保证代码质量？如何控制代码的复杂度？
+如何保证代码的可维护性？就成了软件开发的⼤问题。
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+编程思想
+- 函数式
+- 响应式
 
-Currently, two official plugins are available:
+任何⼀种模式，指的都是解决某⼀个特定类型问题的套路和⽅法。
+现实世界的问题复杂多变，往往不是靠单独⼀种模式能够解决的，更需要的是多种模式的组合。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+状态模式 - xstate
+观察者模式 - rxjs
+中介者模式 - redux
+备忘录模式 - xstate 历史状态
+责任链模式 - Promise 链：.then() 的链式调用。
+模板方法模式 - React 生命周期方法：如 componentDidMount 由开发者实现。
+迭代器模式 - ES6 迭代器协议：Symbol.iterator。
+组合模式 - React 组件树：父子组件组合为虚拟 DOM。
+备忘录模式 - Immer：通过草稿状态实现不可变更新。
+发布订阅模式 - Mitt：轻量级事件总线。
+代理模式 - ES6 Proxy 对象：拦截对象操作（如 Vue 3 的响应式系统）。
+装饰器模式 - TypeScript/ES7 装饰器语法：用于类、方法、属性。
+策略模式 - Passport.js：支持多种认证策略（如 OAuth、JWT）。
+单例模式 - Redux Store：应用中通常只有一个全局 store。
+工厂模式 - React.createElement()：React 的虚拟 DOM 元素工厂。
