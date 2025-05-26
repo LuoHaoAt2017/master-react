@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { from, switchMap } from 'rxjs';
+import { from, switchMap, Observable } from 'rxjs';
 
 describe('rxjs', function () {
   it('callback hell', () => {
@@ -65,5 +65,22 @@ describe('rxjs', function () {
     ).subscribe(result => {
       expect(result).toBe(4);
     });
+  });
+
+  it('publisher-observer', () => {
+    
+    // observer 代理的就是 theObserver，observer.next 执行一次就会调用theObserver 函数一次。
+    const theObservable = (observer) => {
+      observer.next(1);
+      observer.next(2);
+      observer.next(3);
+    }
+    const publisher$ = new Observable(theObservable);
+
+    const theObserver = (value) => {
+      console.log(value);
+    }
+
+    publisher$.subscribe(theObserver);
   });
 });
