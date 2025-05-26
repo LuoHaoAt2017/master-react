@@ -1,0 +1,33 @@
+components/**/*.js
+components/**/*.jsx
+!components/*/__tests__/**/*.js
+!components/*/demo/*
+!.*.js
+~*
+# Docs templates
+site/theme/template/Color/ColorPicker.tsx
+site/theme/template/IconDisplay/*.ts
+site/theme/template/IconDisplay/*.tsx
+site/theme/template/IconDisplay/fields.ts
+site/theme/template/Home/**/*.tsx
+site/theme/template/utils.tsx
+site/theme/template/Layout/**/*.tsx
+site/theme/template/Content/Article.tsx
+site/theme/template/Content/EditButton.tsx
+site/theme/template/Resources/*.tsx
+site/theme/template/Resources/**/*.tsx
+site/theme/template/NotFound.tsx
+typings
+es/**/*
+lib/**/*
+node_modules
+_site
+dist
+coverage
+**/*.d.ts
+# Scripts
+scripts/previewEditor/**/*
+jest-stare
+locale
+.dumi
+report.html
