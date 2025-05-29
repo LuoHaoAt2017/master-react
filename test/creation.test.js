@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { isEqual } from "lodash";
-import { map, of, range, lastValueFrom, generate, repeat, Observable } from "rxjs";
+import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, } from "rxjs";
 
 describe('rxjs', function () {
   it('of', async () => {
@@ -66,7 +66,7 @@ describe('rxjs', function () {
       count: 2,
       delay: 500
     }));
-    const result = await new Promise(function(resolve, reject) {
+    const result = await new Promise(function (resolve, reject) {
       let res = [];
       repeat$.subscribe({
         next: val => res.push(val),
@@ -76,4 +76,42 @@ describe('rxjs', function () {
     });
     expect(result).toEqual([1, 2, 3, 1, 2, 3]);
   }, { timeout: 3000 });
+
+  it('interval', async () => {
+    const resp = await new Promise(function (resolve, reject) {
+      let list = [];
+      interval(1000).pipe(map(x => x + 1)).subscribe({
+        next: value => {
+          if (value > 3) {
+            resolve(list);
+          } else {
+            // console.log(value);
+            list.push(value);
+          }
+        },
+        error: (err) => reject(err),
+        complete: () => resolve(list)
+      });
+    });
+    expect(resp).toEqual([1, 2, 3]);
+  }, { timeout: 6000 });
+
+  it('timer', async () => {
+    const resp = await new Promise(function (resolve, reject) {
+      let list = [];
+      timer(2000, 1000).pipe(map(x => x + 1)).subscribe({
+        next: value => {
+          if (value > 3) {
+            resolve(list);
+          } else {
+            // console.log(value);
+            list.push(value);
+          }
+        },
+        error: (err) => reject(err),
+        complete: () => resolve(list)
+      });
+    });
+    expect(resp).toEqual([1, 2, 3]);
+  }, { timeout: 6000 });
 });
