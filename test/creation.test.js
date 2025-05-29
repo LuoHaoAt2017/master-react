@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { isEqual } from "lodash";
-import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, from, toArray } from "rxjs";
+import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, from } from "rxjs";
 import { fromPromise } from "rxjs/internal/observable/innerFrom";
 
 describe('rxjs', function () {
