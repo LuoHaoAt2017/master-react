@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { isEqual } from "lodash";
-import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, } from "rxjs";
+import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, from, toArray } from "rxjs";
 
 describe('rxjs', function () {
   it('of', async () => {
@@ -114,4 +114,36 @@ describe('rxjs', function () {
     });
     expect(resp).toEqual([1, 2, 3]);
   }, { timeout: 6000 });
+
+  it('from', async () => {
+    const result1 = await new Promise(function(resolve, reject) {
+      const list = [];
+      from([1, 2, 3]).subscribe({
+        next: val => list.push(val),
+        complete: () => resolve(list),
+        error: err => reject(err),
+      });
+    });
+    expect(result1).toEqual([1, 2, 3]);
+
+    const result2 = await new Promise(function(resolve, reject) {
+      const list = [];
+      from("abc").subscribe({
+        next: val => list.push(val),
+        complete: () => resolve(list),
+        error: err => reject(err),
+      });
+    });
+    expect(result2).toEqual(["a", "b", "c"]);
+
+    const result3 = await new Promise(function(resolve, reject) {
+      const list = [];
+      from(of(1, 2, 3)).subscribe({
+        next: val => list.push(val),
+        complete: () => resolve(list),
+        error: err => reject(err),
+      });
+    });
+    expect(result3).toEqual([1, 2, 3]);
+  });
 });
