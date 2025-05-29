@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { isEqual } from "lodash";
 import { map, of, range, lastValueFrom, generate, repeat, Observable, interval, timer, from, toArray } from "rxjs";
+import { fromPromise } from "rxjs/internal/observable/innerFrom";
 
 describe('rxjs', function () {
   it('of', async () => {
@@ -145,5 +146,18 @@ describe('rxjs', function () {
       });
     });
     expect(result3).toEqual([1, 2, 3]);
+  });
+
+  it('fromPromise', async () => {
+    const resp = await new Promise(function(resolve, reject) {
+      let result;
+      const promise = Promise.resolve("abc");
+      fromPromise(promise).subscribe({
+        next: value => result = value,
+        complete: () => resolve(result),
+        error: err => reject(err)
+      });
+    });
+    expect(resp).toEqual("abc");
   });
 });
