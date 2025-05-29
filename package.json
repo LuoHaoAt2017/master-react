@@ -11,6 +11,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "lodash": "4.17.20",
     "react": "17.0.0",
     "react-dom": "17.0.0",
     "react-router-dom": "6.3.0",
