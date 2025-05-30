@@ -1,5 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import { of, repeat, concat, range, timer, map, merge } from "rxjs";
+import { fromPromise } from "rxjs/internal/observable/innerFrom";
 
 describe('rxjs 合并操作符', function () {
   test('concat 连接的每个数据源必须都能完结', async () => {
@@ -33,4 +34,23 @@ describe('rxjs 合并操作符', function () {
     subscription.unsubscribe();
     expect(result).toEqual(['0A', '0B', '1A', '1B', '2A', '2B']);
   });
+
+  test('merge 限流', async () => {
+    const source1$ = fromPromise(new Promise((resolve) => setTimeout(() => resolve(1), 1000)));
+    const source2$ = fromPromise(new Promise((resolve) => setTimeout(() => resolve(2), 2000)));
+    const source3$ = fromPromise(new Promise((resolve) => setTimeout(() => resolve(3), 500)));
+    let done = false;
+    const result = [];
+    // 并发处理的限制是2，source3$ 只有等到 source1$ 或者 source2$ 其中任意一个完结之后才会被订阅。
+    // source1$ 完结之后，source3$ 被订阅并立即执行，然后是 source2$。
+    const subscription = merge(source1$, source2$, source3$, 2).subscribe({
+      next: value => result.push(value),
+      complete: () => done = true,
+    });
+    await vi.waitUntil(() => done, {
+      timeout: 10000
+    });
+    subscription.unsubscribe();
+    expect(result).toEqual([1, 3, 2]);
+  })
 });
