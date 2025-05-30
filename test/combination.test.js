@@ -20,7 +20,7 @@ describe('rxjs 合并操作符', function () {
     expect(result).toEqual([1, 2, 3, 1, 2, 3, 1, 2, 3]);
   });
 
-  test('merge 合并异步数据源', async () => {
+  test('merge 先到先得快速通过', async () => {
     // 自动从0开始递增的数字序列是 timer 操作符的默认行为。
     const source1$ = timer(0, 1000).pipe(map(x => x + 'A'));
     const source2$ = timer(500, 1000).pipe(map(x => x + 'B'));
@@ -52,5 +52,7 @@ describe('rxjs 合并操作符', function () {
     });
     subscription.unsubscribe();
     expect(result).toEqual([1, 3, 2]);
-  })
+  });
+
+  // merge 的使用场景，同一个dom元素上，处理click监听事件, onContextMenu监听事件。
 });
