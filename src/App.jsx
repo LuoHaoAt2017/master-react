@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { map, fromEvent, merge, debounceTime } from 'rxjs';
+import { map, fromEvent, merge, debounceTime, tap } from 'rxjs';
 
 /**
  * 左键单击 - 执行操作A
@@ -35,8 +35,8 @@ function App() {
     const rightClick$ = fromEvent(btnRef.current, 'contextmenu');
     const allClicks$ = merge(
       leftClick$.pipe(map(() => ({ type: 'left', data: 'left' }))),
-      rightClick$.pipe(map(() => ({ type: 'right', data: 'right' }))),
-    ).pipe(debounceTime(500)); // 添加防抖
+      rightClick$.pipe(tap(event => event.preventDefault())).pipe(map(() => ({ type: 'right', data: 'right' }))),
+    );
     const subscription = allClicks$.subscribe(event => {
       switch (event.type) {
         case 'left':
