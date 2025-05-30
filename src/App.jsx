@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { map, Observable } from 'rxjs';
+import { map, Observable, timer } from 'rxjs';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,7 +9,6 @@ function App() {
     // observer 代理的就是 theObserver，observer.next 执行一次就会调用theObserver 函数一次。
     const theObservable = (observer) => {
       const handler = setInterval(() => {
-        console.log('new data ', counter);
         observer.next(counter++);
         if (counter < 0) {
           observer.error(new Error("意外终止"));
@@ -40,6 +39,10 @@ function App() {
     setTimeout(() => {
       subscription.unsubscribe();
     }, 5000);
+    
+    timer(500, 1000).pipe(map(item => item)).subscribe(value => {
+      console.log('value: ', value);
+    });
   }, []);
 
   return (

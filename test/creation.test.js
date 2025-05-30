@@ -160,4 +160,8 @@ describe('rxjs', function () {
     });
     expect(resp).toEqual("abc");
   });
+
+  it('fromEvent', () => {
+    
+  });
 });
