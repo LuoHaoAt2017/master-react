@@ -1,7 +1,8 @@
 import { describe, expect, test } from "vitest";
-import { of, filter, first, take, takeLast, takeWhile, interval } from "rxjs";
+import { of, filter, first, take, takeLast, takeWhile, interval, fromEvent, timer, takeUntil } from "rxjs";
 import { isEqual } from "lodash";
 import { waitResult } from './utils';
+import { fromPromise } from "rxjs/internal/observable/innerFrom";
 
 describe('rxjs', function () {
   test('filter', async () => {
@@ -52,7 +53,11 @@ describe('rxjs', function () {
     expect(result$).toEqual([0, 2, 4]);
   });
 
-  test('takeUntil 它允许一个 Observable 在另一个 Observable 发出值（称为"通知者"）时自动完成。这在管理订阅和清理资源时特别有用。', function() {
-    
+  test('takeUntil 它允许一个 Observable 在另一个 Observable 发出值（称为"通知者"）时自动完成。这在管理订阅和清理资源时特别有用。', async function() {
+    const source$ = new Promise(function(resolve) { setTimeout(() => { resolve([1]) }, [200])});
+    const cancle$ = timer(300); // 超时控制
+    const target$ = fromPromise(source$).pipe(takeUntil(cancle$))
+    const result$ = await waitResult(target$);
+    expect(result$).toEqual([1]);
   });
 });
