@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { of, filter, first, take, takeLast, takeUntil, takeWhile, interval } from "rxjs";
+import { of, filter, first, take, takeLast, takeWhile, interval } from "rxjs";
 import { isEqual } from "lodash";
 import { waitResult } from './utils';
 
@@ -42,5 +42,13 @@ describe('rxjs', function () {
     const result = await waitResult(source$);
     console.log("result: ", result);
     expect(isEqual(result, [0, 1, 2])).toBeTruthy();
+  });
+
+  test('获取数组中前3个偶数， 获取满足条件的前N个数据', async () => {
+    const source$ = interval(100).pipe(take(9));
+    const target$ = source$.pipe(filter(value => value % 2 === 0)).pipe(take(3));
+    const result$ = await waitResult(target$);
+    console.log("result$: ", result$);
+    expect(result$).toEqual([0, 2, 4]);
   });
 });
