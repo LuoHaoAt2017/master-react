@@ -51,4 +51,8 @@ describe('rxjs', function () {
     console.log("result$: ", result$);
     expect(result$).toEqual([0, 2, 4]);
   });
+
+  test('takeUntil 它允许一个 Observable 在另一个 Observable 发出值（称为"通知者"）时自动完成。这在管理订阅和清理资源时特别有用。', function() {
+    
+  });
 });

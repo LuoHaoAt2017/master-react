@@ -3,7 +3,7 @@ import { map, fromEvent, merge, debounceTime, tap, filter, bufferTime, switchMap
 
 function App() {
   const btnRef = useRef();
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   /**
    * 左键单击 - 执行操作A
    * 右键单击 - 执行操作B
@@ -73,10 +73,8 @@ function App() {
    * 统计5秒钟以内，鼠标点击按钮的次数
    */
   useEffect(() => {
-    const source$ = fromEvent(btnRef.current, 'click');
     const countDown$ = timer(5000);
-    const target$ = source$.pipe(takeUntil(countDown$));
-    target$.subscribe(function() {
+    fromEvent(btnRef.current, 'click').pipe(takeUntil(countDown$)).subscribe(function () {
       setCount(preCount => preCount + 1);
     });
   }, []);
