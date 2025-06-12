@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  timeout: 30000, // 请求超时时间
+  timeout: 3000, // 请求超时时间
 });
 
 instance.interceptors.request.use(
@@ -22,4 +22,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default request;
+export default instance;
