@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { Spin, Table } from "antd";
 import { getDeviceListByOrg } from "@/services";
-import DataFetchProvider from "@/render-props/DataFetchProvider";
+import DataFetchProvider from "@/renderProps/DataFetchProvider";
 
 const columns = [
   {
