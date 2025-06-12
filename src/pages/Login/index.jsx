@@ -7,12 +7,12 @@ const columns = [
   {
     key: 'deviceName',
     dataIndex: 'deviceName',
-    title: 'deviceName'
+    title: 'DeviceName'
   },
   {
     key: 'deviceCode',
     dataIndex: 'deviceCode',
-    title: 'deviceCode'
+    title: 'DeviceCode'
   }
 ]
 
@@ -31,6 +31,7 @@ function Login() {
     }
     return <Table dataSource={data} columns={columns} />
   }, []);
+
   return <DataFetchProvider config={config}>
     {
       ({ data, loading, error }) => <Content data={data} loading={loading} error={error} />

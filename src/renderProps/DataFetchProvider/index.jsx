@@ -21,6 +21,7 @@ function DataFetchProvider({ config, children }) {
       setLoading(false);
     });
   }, [service, params]);
+
   return children({
     data: source,
     error: error,
