@@ -23,7 +23,7 @@ function About({ data, loading, error }) {
   if (error) {
     return <div>Error</div>
   }
-  return <Table dataSource={data} columns={columns} />
+  return <Table dataSource={data} columns={columns}  size="small"/>
 }
 
 const EnhancedComponent = withDataFetcher({

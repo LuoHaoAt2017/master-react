@@ -29,7 +29,7 @@ function Login() {
     if (error) {
       return <div>Error</div>
     }
-    return <Table dataSource={data} columns={columns} />
+    return <Table dataSource={data} columns={columns} size="small"/>
   }, []);
 
   return <DataFetchProvider config={config}>

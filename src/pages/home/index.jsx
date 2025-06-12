@@ -4,15 +4,18 @@ import { getDeviceListByOrg } from "@/services";
 import useDataFetcher from "@/hooks/useDataFetcher";
 import MousePosProvider from "@/renderProps/MousePosProvider";
 
-const columns = [{
-  key: 'deviceName',
-  dataIndex: 'deviceName',
-  title: 'deviceName'
-}, {
-  key: 'deviceCode',
-  dataIndex: 'deviceCode',
-  title: 'deviceCode'
-}]
+const columns = [
+  {
+    key: 'deviceName',
+    dataIndex: 'deviceName',
+    title: 'DeviceName'
+  },
+  {
+    key: 'deviceCode',
+    dataIndex: 'deviceCode',
+    title: 'DeviceCode'
+  }
+]
 
 function Home() {
   const { data, loading, error, runAsync } = useDataFetcher(getDeviceListByOrg);
@@ -24,7 +27,7 @@ function Home() {
   }
   return <MousePosProvider render={({ clientX, clientY }) => {
     return <div>
-      <Table dataSource={data} columns={columns}></Table>
+      <Table dataSource={data} columns={columns} size="small"></Table>
       <Button onClick={runAsync}>Click</Button>
       <div style={{ position: 'fixed', left: clientX + 32, top: clientY }}>
         ({clientX}, {clientY})

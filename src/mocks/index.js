@@ -1,5 +1,5 @@
 import mockjs from "mockjs";
-import urls from "@/services/urls";
+import urls from "../services/urls";
 
 const { Random, mock } = mockjs;
 
