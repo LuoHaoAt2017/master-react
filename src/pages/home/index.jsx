@@ -13,7 +13,7 @@ const columns = [{
   title: 'deviceCode'
 }]
 
-function App() {
+function Home() {
   const { data, loading, error, runAsync } = useDataFetcher(getDeviceListByOrg);
   if (loading) {
     return <Spin />
@@ -27,4 +27,4 @@ function App() {
   </>
 }
 
-export default App;
+export default Home;
