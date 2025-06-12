@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { of, filter, first, take, takeLast, takeWhile, interval, fromEvent, timer, takeUntil } from "rxjs";
+import { of, filter, first, take, takeLast, takeWhile, interval, fromEvent, timer, takeUntil, skip, skipWhile } from "rxjs";
 import { isEqual } from "lodash";
 import { waitResult } from './utils';
 import { fromPromise } from "rxjs/internal/observable/innerFrom";
@@ -60,4 +60,19 @@ describe('rxjs', function () {
     const result$ = await waitResult(target$);
     expect(result$).toEqual([1]);
   });
+
+  test('skip 跳过前N个数据之后全拿', async () => {
+    const source$ = interval(100).pipe(take(3));
+    const target$ = source$.pipe(skip(1));
+    const result$ = await waitResult(target$);
+    expect(result$).toEqual([1, 2]);
+  });
+
+  test('skipWhile 跳过首个满足判定条件的元素之后全拿', async () => {
+    const source$ = interval(100).pipe(take(3));
+    const target$ = source$.pipe(skipWhile(value => value % 2 === 1));
+    const result$ = await waitResult(target$);
+    console.log(result$);
+    expect(result$).toEqual([2]);
+  }, { timeout: 1000 });
 });
