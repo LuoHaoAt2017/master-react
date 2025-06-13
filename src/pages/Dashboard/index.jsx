@@ -1,4 +1,4 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 import { Button, Table, Input } from "antd";
 import withLoading from "@/hocs/withLoading";
 import withBorder from "@/hocs/withBorder";
@@ -41,7 +41,7 @@ const VideoPlayer = forwardRef((props, ref) => {
   }));
 
   return <div>
-    <video ref={videoRef} src={props.src}></video>
+    <video ref={videoRef} src={props.src} height={360}></video>
   </div>
 })
 
