@@ -25,7 +25,7 @@ export default [
   {
     url: urls.deviceList,
     method: 'get',
-    // timeout: 500,
+    timeout: 2000,
     response: ({ query }) => {
       console.log("query: ", query);
       const data = mock({
