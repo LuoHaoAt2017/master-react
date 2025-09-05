@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { getPosts } from '@/apis';
 import { getTextAnchor, highlightRange } from './config';
 import { content, comments } from './mock';
 
@@ -35,6 +36,14 @@ export default function Home() {
       document.removeEventListener('selectionchange', handleSelection);
     };
   }, [containerRef]);
+
+  useEffect(() => {
+    getPosts().then((resp) => {
+      console.log('resp: ', resp);
+    }).catch((err) => {
+      console.error(err);
+    });
+  }, []);
 
   console.log('anchorInfo: ', anchorInfo);
   console.log('selectedText: ', selectedText);

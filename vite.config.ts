@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     viteMockServe({
       enable: true,
-      mockPath: 'mocks', // Mock 文件路径
+      mockPath: './mocks/index', // Mock 文件路径
       logger: true, // 控制台显示请求日志
     }),
   ],
