@@ -5,7 +5,7 @@ Random.extend({
     return Random.guid();
   },
   comment() {
-    return Random.csentence();
+    return Random.csentence(50, 100);
   }
 });
 

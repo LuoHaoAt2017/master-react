@@ -1,4 +1,5 @@
-import { Random, mock } from 'mockjs';
+import pkg from 'mockjs';
+const { Random, mock } = pkg;
 
 Random.extend({
   uuid() {
