@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from './router';
 
-ReactDom.render(
+ReactDOM.render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>,
