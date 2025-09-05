@@ -17,7 +17,7 @@ export const highlightRange = (range: Range, commentId: string, parent: HTMLDivE
     highlight.style.width = `${rect.width}px`;
     highlight.style.height = `${rect.height}px`;
     highlight.style.backgroundColor = 'rgba(255, 235, 59, 0.3)';
-    highlight.style.border = `1px solid orange`;
+    // highlight.style.border = `1px solid orange`;
     overlay.appendChild(highlight);
   });
   parent.appendChild(overlay)
