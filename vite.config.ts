@@ -1,16 +1,30 @@
 import path from "path";
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { viteMockServe } from 'vite-plugin-mock';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteMockServe({
+      enable: true,
+      mockPath: 'mock', // Mock 文件路径
+      logger: true, // 控制台显示请求日志
+    }),
+  ],
   resolve: {
     alias: {
-      "@":  path.resolve(__dirname, "src")
+      "@": path.resolve(__dirname, "src")
     }
   },
   server: {
-    port: 3000
+    port: 3000,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true,
+    //   }
+    // }
   }
 })
