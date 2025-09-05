@@ -7,3 +7,9 @@ interface Anchor {
   endOffset: number,
   textContent: string,
 }
+
+interface Comment {
+  id: string;
+  content: string;
+  anchor?: Anchor;
+}

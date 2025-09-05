@@ -1,12 +1,31 @@
 // 使用绝对定位的覆盖层显示高亮
-export const highlightRange = (range: Range, commentId: string, parent: HTMLDivElement) => {
+export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
+  const commentId = comment.id;
+  if (!commentId || !comment.anchor) {
+    return;
+  }
+  const range = locateByAnchor(comment.anchor);
+  if (!range) {
+    return;
+  }
   const rects = range.getClientRects();
   const overlay = document.createElement('div');
   overlay.className = 'comment-highlight-overlay';
   overlay.dataset.commentId = commentId;
 
-  overlay.style.pointerEvents = 'none';
+  overlay.style.cursor = 'pointer';
   overlay.style.zIndex = '1000';
+
+  overlay.addEventListener("click", function(evt) {
+    evt.stopPropagation();
+    const target = document.getElementById(commentId);
+    if (!target) {
+      return;
+    }
+    target.scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
 
   // 为每个文本矩形创建高亮区域
   Array.from(rects).forEach(rect => {
@@ -75,7 +94,7 @@ export const getTextAnchor = (range) => {
 };
 
 // 文本内容搜索备选方案
-export const locateByTextContent = (textContent) => {
+export const locateByTextContent = (textContent: string) => {
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
@@ -96,7 +115,7 @@ export const locateByTextContent = (textContent) => {
 };
 
 // 根据存储的定位信息找到当前文本位置
-export const locateText = (anchor: Anchor) => {
+export const locateByAnchor = (anchor: Anchor) => {
   try {
     const startNode = document.evaluate(
       anchor.startXPath,
