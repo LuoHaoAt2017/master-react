@@ -54,6 +54,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const parent = containerRef.current;
     const refreshHighlights = () => {
       removeHighlights(comments, containerRef.current);
       comments.forEach(item => {
@@ -62,14 +63,14 @@ export default function Home() {
     }
     // 监听滚动和 resize 事件，实时更新位置
     window.addEventListener('resize', refreshHighlights);
-    containerRef.current.addEventListener('scroll', refreshHighlights);
-    containerRef.current.addEventListener('resize', refreshHighlights);
+    parent.addEventListener('scroll', refreshHighlights);
+    parent.addEventListener('resize', refreshHighlights);
 
     refreshHighlights();
     return () => {
-      window.removeEventListener('resize', refreshHighlights)
-      containerRef.current.removeEventListener('scroll', refreshHighlights);
-      containerRef.current.removeEventListener('resize', refreshHighlights);
+      window.removeEventListener('resize', refreshHighlights);
+      parent.removeEventListener('scroll', refreshHighlights);
+      parent.removeEventListener('resize', refreshHighlights);
     }
   }, [comments]);
 
