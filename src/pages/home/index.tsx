@@ -44,14 +44,14 @@ export default function Home() {
         setAnchorInfo(undefined);
         setSelectedText('');
       }
-    }, 200);
+    }, 500);
     current.addEventListener('mouseup', handleSelection);
     current.addEventListener('selectionchange', handleSelection);
     return () => {
       current.removeEventListener('mouseup', handleSelection);
       current.removeEventListener('selectionchange', handleSelection);
     };
-  }, []);
+  }, [setVisible]);
 
   useEffect(() => {
     const parent = containerRef.current;
@@ -89,7 +89,7 @@ export default function Home() {
     }).finally(() => {
       setComments(mockComments);
     });
-  }, []);
+  }, [setComments]);
 
   return (<>
     <CommentModal content={selectedText} anchor={anchorInfo} />
