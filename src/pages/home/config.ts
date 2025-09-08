@@ -211,3 +211,10 @@ export const removeHighlights = (comments: Comment[], parent: HTMLDivElement) =>
     }
   });
 }
+
+export const highlightComments = (comments: Comment[], parent: HTMLDivElement) => {
+  removeHighlights(comments, parent);
+  comments.forEach(item => {
+    highlightComment(item, parent);
+  });
+}

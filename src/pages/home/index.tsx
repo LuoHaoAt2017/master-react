@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { Empty } from 'antd';
 import { getPosts } from '@/apis';
 import useCommentStore from '@/store/useCommentStore';
-import { getAnchorByRange, highlightComment, removeHighlights } from './config';
+import { getAnchorByRange, highlightComments } from './config';
 import CommentModal from './modal';
 import { htmlDoc, mockComments } from './mock';
 
@@ -56,10 +56,7 @@ export default function Home() {
   useEffect(() => {
     const parent = containerRef.current;
     const refreshHighlights = () => {
-      removeHighlights(comments, containerRef.current);
-      comments.forEach(item => {
-        highlightComment(item, containerRef.current);
-      });
+      highlightComments(comments, parent);
     }
     // 监听滚动和 resize 事件，实时更新位置
     window.addEventListener('resize', refreshHighlights);
