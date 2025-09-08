@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { Empty } from 'antd';
 import { getPosts } from '@/apis';
 import useCommentStore from '@/store/useCommentStore';
-import { getTextAnchor, highlightComment, removeHighlights } from './config';
+import { getAnchorByRange, highlightComment, removeHighlights } from './config';
 import CommentModal from './modal';
 import { htmlDoc, mockComments } from './mock';
 
@@ -37,7 +37,7 @@ export default function Home() {
       const range = sel.getRangeAt(0);
       // 检查选择是否在指定容器内
       if (containerRef.current && containerRef.current.contains(range.commonAncestorContainer)) {
-        const anchor = getTextAnchor(range);
+        const anchor = getAnchorByRange(range);
         setAnchorInfo(anchor);
         setSelectedText(text);
       } else {

@@ -1,5 +1,5 @@
 // 获取元素的XPath
-const getXPathByNode = (element) => {
+export const getXPathByNode = (element: Node) => {
   if (element.nodeType === Node.TEXT_NODE) {
     // 对于文本节点，返回父元素的XPath并标记为文本节点
     return getElementXPath(element.parentNode as Element) + '/text()';
@@ -11,7 +11,7 @@ const getXPathByNode = (element) => {
 };
 
 // 获取元素节点的XPath
-const getElementXPath = (element: Element): string => {
+export const getElementXPath = (element: Element): string => {
   if (!element || element.nodeType !== Node.ELEMENT_NODE) {
     return '';
   }
@@ -38,7 +38,7 @@ const getElementXPath = (element: Element): string => {
 };
 
 // 通过XPath获取节点的辅助函数
-const getNodeByXPath = (xpath) => {
+export const getNodeByXPath = (xpath: string) => {
   try {
     return document.evaluate(
       xpath,
@@ -54,7 +54,7 @@ const getNodeByXPath = (xpath) => {
 };
 
 // 文本内容搜索备选方案
-const locateByTextContent = (textContent: string) => {
+export const getRangeByContent = (textContent: string) => {
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
@@ -75,7 +75,7 @@ const locateByTextContent = (textContent: string) => {
 };
 
 // 记录文本位置信息而非修改DOM
-export const getTextAnchor = (range: Range) => {
+export const getAnchorByRange = (range: Range) => {
   const startContainer = range.startContainer;
   const endContainer = range.endContainer;
   const startOffset = range.startOffset;
@@ -100,7 +100,7 @@ export const getTextAnchor = (range: Range) => {
 };
 
 // 根据存储的定位信息找到当前文本位置
-export const locateByAnchor = (anchor: Anchor) => {
+export const getRangeByAnchor = (anchor: Anchor) => {
   try {
     let startNode: Node | null = null;
     let endNode: Node | null = null;
@@ -131,7 +131,7 @@ export const locateByAnchor = (anchor: Anchor) => {
     if (!startNode || !endNode) {
       // fallback: 使用文本内容搜索
       console.error('使用文本内容搜索');
-      return locateByTextContent(anchor.textContent);
+      return getRangeByContent(anchor.textContent);
     }
 
     const range = document.createRange();
@@ -178,7 +178,7 @@ export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
     // 清空现有高亮
     overlay.innerHTML = '';
     if (!comment.anchor) return;
-    const range = locateByAnchor(comment.anchor);
+    const range = getRangeByAnchor(comment.anchor);
     if (!range) return;
     const rects = range.getClientRects();
     Array.from(rects).forEach(rect => {
