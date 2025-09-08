@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { Empty } from 'antd';
 import { getPosts } from '@/apis';
 import useCommentStore from '@/store/useCommentStore';
-import { getTextAnchor, highlightComment } from './config';
+import { getTextAnchor, highlightComments } from './config';
 import CommentModal from './modal';
 import { htmlDoc, mockComments } from './mock';
 
@@ -55,9 +55,7 @@ export default function Home() {
 
   useEffect(() => {
     if (containerRef.current) {
-      comments.forEach(item => {
-        highlightComment(item, containerRef.current);
-      });
+      highlightComments(comments, containerRef.current);
     }
   }, [comments]);
 

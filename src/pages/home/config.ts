@@ -144,7 +144,7 @@ export const locateByAnchor = (anchor: Anchor) => {
 };
 
 // 使用绝对定位的覆盖层显示高亮
-export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
+const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
   const commentId = comment.id;
   if (!commentId || !comment.anchor) {
     return;
@@ -155,6 +155,7 @@ export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
   }
   const rects = range.getClientRects();
   const overlay = document.createElement('div');
+  overlay.id = `overlay-${commentId}`;
   overlay.className = 'comment-highlight-overlay';
   overlay.dataset.commentId = commentId;
 
@@ -187,3 +188,22 @@ export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
   parent.appendChild(overlay)
   return overlay;
 };
+
+const removeHighlights = (comments: Comment[], parent: HTMLDivElement) => {
+  if (!parent || comments.length === 0) {
+    return;
+  }
+  comments.forEach(function(comment) {
+    const overlay = document.getElementById(`overlay-${comment.id}`);
+    if (overlay && parent.contains(overlay)) {
+      parent.removeChild(overlay);
+    }
+  });
+}
+
+export const highlightComments = (comments: Comment[], parent: HTMLDivElement) => {
+  removeHighlights(comments, parent);
+  comments.forEach(item => {
+    highlightComment(item, parent);
+  });
+}
