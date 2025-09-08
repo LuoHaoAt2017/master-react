@@ -130,6 +130,7 @@ export const locateByAnchor = (anchor: Anchor) => {
 
     if (!startNode || !endNode) {
       // fallback: 使用文本内容搜索
+      console.error('使用文本内容搜索');
       return locateByTextContent(anchor.textContent);
     }
 
@@ -144,24 +145,23 @@ export const locateByAnchor = (anchor: Anchor) => {
 };
 
 // 使用绝对定位的覆盖层显示高亮
-const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
+export const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
   const commentId = comment.id;
   if (!commentId || !comment.anchor) {
     return;
   }
-  const range = locateByAnchor(comment.anchor);
-  if (!range) {
-    return;
-  }
-  const rects = range.getClientRects();
   const overlay = document.createElement('div');
   overlay.id = `overlay-${commentId}`;
   overlay.className = 'comment-highlight-overlay';
   overlay.dataset.commentId = commentId;
-
+  overlay.style.position = 'fixed';
+  overlay.style.left = '0';
+  overlay.style.top = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.pointerEvents = 'none'; // 允许点击穿透到下层文本
   overlay.style.cursor = 'pointer';
   overlay.style.zIndex = '1000';
-
   overlay.addEventListener("click", function (evt) {
     evt.stopPropagation();
     const target = document.getElementById(commentId);
@@ -173,37 +173,41 @@ const highlightComment = (comment: Comment, parent: HTMLDivElement) => {
     });
   });
 
-  // 为每个文本矩形创建高亮区域
-  Array.from(rects).forEach(rect => {
-    const highlight = document.createElement('div');
-    highlight.style.position = 'absolute';
-    highlight.style.left = `${rect.left + window.scrollX}px`;
-    highlight.style.top = `${rect.top + window.scrollY}px`;
-    highlight.style.width = `${rect.width}px`;
-    highlight.style.height = `${rect.height}px`;
-    highlight.style.backgroundColor = 'rgba(255, 235, 59, 0.3)';
-    // highlight.style.border = `1px solid orange`;
-    overlay.appendChild(highlight);
-  });
-  parent.appendChild(overlay)
-  return overlay;
+  // 创建高亮函数，用于初始化和更新位置
+  const updateHighlights = () => {
+    // 清空现有高亮
+    overlay.innerHTML = '';
+    if (!comment.anchor) return;
+    const range = locateByAnchor(comment.anchor);
+    if (!range) return;
+    const rects = range.getClientRects();
+    Array.from(rects).forEach(rect => {
+      const highlight = document.createElement('div');
+      highlight.style.position = 'absolute';
+      highlight.style.left = `${rect.left + window.scrollX}px`; // 加上滚动偏移
+      highlight.style.top = `${rect.top + window.scrollY}px`;
+      highlight.style.width = `${rect.width}px`;
+      highlight.style.height = `${rect.height}px`;
+      highlight.style.backgroundColor = 'rgba(255, 235, 59, 0.3)';
+      highlight.style.pointerEvents = 'auto'; // 允许点击高亮区域
+      overlay.appendChild(highlight);
+    });
+  };
+
+  // 初始创建高亮
+  updateHighlights();
+
+  parent.appendChild(overlay);
 };
 
-const removeHighlights = (comments: Comment[], parent: HTMLDivElement) => {
+export const removeHighlights = (comments: Comment[], parent: HTMLDivElement) => {
   if (!parent || comments.length === 0) {
     return;
   }
-  comments.forEach(function(comment) {
+  comments.forEach(function (comment) {
     const overlay = document.getElementById(`overlay-${comment.id}`);
     if (overlay && parent.contains(overlay)) {
       parent.removeChild(overlay);
     }
-  });
-}
-
-export const highlightComments = (comments: Comment[], parent: HTMLDivElement) => {
-  removeHighlights(comments, parent);
-  comments.forEach(item => {
-    highlightComment(item, parent);
   });
 }
