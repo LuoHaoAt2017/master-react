@@ -6,6 +6,8 @@ interface Anchor {
   startOffset: number,
   endOffset: number,
   textContent: string,
+  startIsText: boolean,
+  endIsText: boolean,
 }
 
 interface Comment {

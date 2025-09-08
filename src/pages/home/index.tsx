@@ -23,31 +23,35 @@ export default function Home() {
     }
     const handleSelection = debounce(() => {
       const sel = window.getSelection();
-      if (!sel || !sel.rangeCount) return;
+      if (!sel) return;
+      // 点击一个加载完毕的新打开的页面之前，rangeCount 的值是 0。在点击页面之后，rangeCount 的值变为 1，即使并没有可视的选区。
+      if (!sel.rangeCount) return;
+      // 当选定内容的起点和终点位于内容中的同一位置时，没有选定文本。
+      if (sel.isCollapsed) return;
+      // 排除空白符
       const text = sel.toString().trim();
       if (!text.trim()) {
         return;
       }
       setVisible(true);
       const range = sel.getRangeAt(0);
-      console.log('range: ', range);
       // 检查选择是否在指定容器内
       if (containerRef.current && containerRef.current.contains(range.commonAncestorContainer)) {
-        setAnchorInfo(getTextAnchor(range));
+        const anchor = getTextAnchor(range);
+        setAnchorInfo(anchor);
         setSelectedText(text);
-        // highlightRange(range, 'c1', containerRef.current);
       } else {
         setAnchorInfo(undefined);
         setSelectedText('');
       }
-    }, 500);
+    }, 200);
     current.addEventListener('mouseup', handleSelection);
     current.addEventListener('selectionchange', handleSelection);
     return () => {
       current.removeEventListener('mouseup', handleSelection);
       current.removeEventListener('selectionchange', handleSelection);
     };
-  }, [containerRef, setVisible]);
+  }, []);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -55,7 +59,7 @@ export default function Home() {
         highlightComment(item, containerRef.current);
       });
     }
-  }, [containerRef, comments]);
+  }, [comments]);
 
   useEffect(() => {
     if (!visible) {
@@ -65,14 +69,14 @@ export default function Home() {
   }, [visible]);
 
   useEffect(() => {
-    getPosts().then((resp) => {
-      console.log('resp: ', resp);
+    getPosts().then(() => {
+      // console.log('resp: ', resp);
     }).catch((err) => {
       console.error(err);
     }).finally(() => {
       setComments(mockComments);
     });
-  }, [setComments]);
+  }, []);
 
   return (<>
     <CommentModal content={selectedText} anchor={anchorInfo} />
