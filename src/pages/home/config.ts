@@ -140,7 +140,7 @@ export const getRangeByAnchor = (anchor: Anchor) => {
     return range;
   } catch (error) {
     console.error(error);
-    return locateByTextContent(anchor.textContent);
+    return getRangeByContent(anchor.textContent);
   }
 };
 
