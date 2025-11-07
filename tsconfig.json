@@ -10,10 +10,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "typeRoots": [
-      "node_modules/@types/*",
-      "src/types/*"
-    ],
+    "typeRoots": ["node_modules/@types/*", "src/types/*"],
 
     /* Bundler mode */
     "moduleResolution": "node",
@@ -30,6 +27,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "test", "mocks"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
