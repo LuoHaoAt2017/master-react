@@ -14,16 +14,7 @@ export default defineConfig({
     },
     preserveSymlinks: true
   },
-  build: {
-    rollupOptions: {
-      external: []
-    }
-  },
   server: {
     port: 3000,
-    force: true,
-    watch: {
-      followSymlinks: true
-    }
   },
 })
