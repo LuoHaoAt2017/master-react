@@ -8,6 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "react": "D://github/react-18.2.0/build/node_modules/react",
+      "react-dom": "D://github/react-18.2.0/build/node_modules/react-dom"
     },
   },
   server: {
