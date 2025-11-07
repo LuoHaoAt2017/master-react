@@ -10,7 +10,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "typeRoots": ["node_modules/@types/*", "src/types/*"],
+    "typeRoots": ["node_modules/@types/*", "src/types/*", "lib/react-18.2.0/node_modules/@types/*"],
 
     /* Bundler mode */
     "moduleResolution": "node",
